@@ -28,12 +28,6 @@ public class Recording {
 
 
     public Recording(FloatingActionButton fab, Context context){
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/newrecording.3gp";
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        mediaRecorder.setOutputFile(outputFile);
         vibrator = (Vibrator)context.getSystemService(context.VIBRATOR_SERVICE);
         player = new MediaPlayer();
 
@@ -57,6 +51,12 @@ public class Recording {
     }
     private void startRecording(){
         try {
+            outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/newrecording.3gp";
+            mediaRecorder = new MediaRecorder();
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            mediaRecorder.setOutputFile(outputFile);
             vibrator.vibrate(75);
             mediaRecorder.prepare();
             mediaRecorder.start();
