@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pavel.fastnotes.RecordingActivity">
+    tools:context="com.example.pavel.fastnotes.view.RecordingActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnRecord"
@@ -41,17 +41,25 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintVertical_bias="0.0"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginEnd="8dp"
+        app:layout_constraintHorizontal_bias="1.0" />
 
-    <android.support.v7.app.AlertController.RecycleListView
-        android:layout_width="362dp"
-        android:layout_height="441dp"
+    <TextView
+        android:id="@+id/recordId"
+        android:layout_width="274dp"
+        android:layout_height="40dp"
+        android:text="File "
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="7dp"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPlay" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.017"
+        tools:layout_editor_absoluteX="3dp" />
 
 
 </android.support.constraint.ConstraintLayout>

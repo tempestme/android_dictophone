@@ -1,4 +1,4 @@
-package com.example.pavel.fastnotes;
+package com.example.pavel.fastnotes.model;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+
+import org.joda.time.DateTime;
+
 import java.io.IOException;
 
 
@@ -74,7 +77,8 @@ public class Recording {
     }
     private void startRecording(){
         try {
-            outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/newrecording.3gp";
+            //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/newrecording.3gp";
+            outputFile = generateName();
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -101,6 +105,14 @@ public class Recording {
             e.printStackTrace();
             return;
         }
+    }
+
+    private String generateName(){
+        String name = new String();
+        DateTime dateTime = new DateTime();
+        name = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                "/" + Integer.toString(dateTime.getDayOfYear())+Integer.toString(dateTime.getSecondOfDay())+"3gp";
+        return name;
     }
 
     /*
