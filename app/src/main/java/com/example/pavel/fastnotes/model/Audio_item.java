@@ -1,6 +1,8 @@
 package com.example.pavel.fastnotes.model;
 
 
+import android.media.MediaPlayer;
+
 import org.joda.time.DateTime;
 
 /**
@@ -8,25 +10,19 @@ import org.joda.time.DateTime;
  */
 
 public class Audio_item {
-    String title;
-    String outPutFile;
-    String date;
-    int length;
-    DateTime dateTime;
+    //String title;
+    private String outPutFile;
+    private String date;
+    private int length;
+    private DateTime dateTime;
 
-    public Audio_item(String title, String date, int length, String outPutFile) {
-        this.title = title;
-        this.date = date;
-        this.length = length;
+    public Audio_item(String outPutFile, MediaPlayer m) {
         this.outPutFile = outPutFile;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+        dateTime = new DateTime();
+        this.date = Integer.toString(dateTime.getDayOfMonth())+"."+
+                Integer.toString(dateTime.getMonthOfYear())+"."+
+                Integer.toString(dateTime.getYear());
+                length = m.getDuration();
     }
 
     public String getDate() {

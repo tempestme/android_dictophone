@@ -30,10 +30,9 @@ public class RecordingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recording);
         //joda time library initialization
-        JodaTimeAndroid.init(this);
+        JodaTimeAndroid.init(this); //temporary
         context = getBaseContext();
         Activity activity = this;
-        TextView fileName = (TextView)findViewById(R.id.recordId); //test filename line
 
         play = (Button) findViewById(R.id.btnPlay);
         recBtn = (FloatingActionButton) findViewById(R.id.btnRecord);
@@ -41,7 +40,12 @@ public class RecordingActivity extends AppCompatActivity {
         recording = new Recording(play, recBtn, context, activity);
         //recording.playRecording(play);
 
+
+        //todo: this is test code for debug version, it will be refacrored in release version.
+        TextView fileName = (TextView)findViewById(R.id.recordId); //test filename line
+        TextView timer = (TextView)findViewById(R.id.timer);
         addTime(fileName);
+        setTime(timer);
 
 
     }
@@ -49,6 +53,32 @@ public class RecordingActivity extends AppCompatActivity {
     public void addTime(TextView fn){
         DateTime dateTime = new DateTime();
         fn.setText(fn.getText() + Integer.toString(dateTime.getDayOfYear()));
+    }
+
+    private void setTime(TextView timer){
+        String normalTime = new String();
+        String Hour = new String();
+        String Minute = new String();
+        DateTime dateTime = new DateTime();
+        Hour = Integer.toString(dateTime.getHourOfDay());
+        Minute = Integer.toString(dateTime.getMinuteOfHour());
+
+        if (Hour.length()==1){
+            normalTime =  normalTime + "0" + Hour;
+        }
+        else{
+            normalTime+=Hour;
+        }
+        normalTime+=":";
+        if (Minute.length()==1){
+            normalTime = normalTime + "0" + Minute;
+        }
+        else{
+            normalTime+=Minute;
+        }
+
+        timer.setText(normalTime);
+
     }
 
     /*

@@ -69,6 +69,7 @@ public class Recording {
                     e.printStackTrace();
                 }
                 m.start();
+                m.getDuration();
                 vibrator.vibrate(50);
                 return true;
             }
