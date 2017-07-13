@@ -18,6 +18,8 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.joda.time.DateTime;
 
+import java.util.Date;
+
 
 public class RecordingActivity extends AppCompatActivity {
     private Recording recording;
@@ -44,10 +46,21 @@ public class RecordingActivity extends AppCompatActivity {
         //todo: this is test code for debug version, it will be refacrored in release version.
         TextView fileName = (TextView)findViewById(R.id.recordId); //test filename line
         TextView timer = (TextView)findViewById(R.id.timer);
+        TextView date = (TextView)findViewById(R.id.date);
         addTime(fileName);
         setTime(timer);
+        addDate(date);
 
 
+    }
+
+    public void addDate(TextView date){
+        DateTime dateTime = new DateTime();
+        date.setText(
+                        Integer.toString(dateTime.getDayOfMonth())+"."+
+                        Integer.toString(dateTime.getMonthOfYear())+"."+
+                        Integer.toString(dateTime.getYear())
+        );
     }
 
     public void addTime(TextView fn){

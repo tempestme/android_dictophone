@@ -15,6 +15,7 @@ import android.widget.Button;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -27,6 +28,7 @@ public class Recording {
     private FloatingActionButton fab;
     private Vibrator vibrator;
     private MediaPlayer player;
+    private List<Audio_item> List;
 
 
 
