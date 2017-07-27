@@ -6,7 +6,8 @@ import android.media.MediaPlayer;
 import org.joda.time.DateTime;
 
 /**
- * Created by pavel on 05.07.17.
+ * class created for storing information of recorded audio files
+ * object contain date of recording, output file name, duration of recording.
  */
 
 public class Audio_item {
@@ -16,13 +17,16 @@ public class Audio_item {
     private int length;
     private DateTime dateTime;
 
-    public Audio_item(String outPutFile, MediaPlayer m) {
+    public Audio_item(String outPutFile) {
         this.outPutFile = outPutFile;
         dateTime = new DateTime();
         this.date = Integer.toString(dateTime.getDayOfMonth())+"."+
                 Integer.toString(dateTime.getMonthOfYear())+"."+
                 Integer.toString(dateTime.getYear());
-                length = m.getDuration();
+    }
+
+    public Audio_item(){
+
     }
 
     public String getDate() {

@@ -28,16 +28,18 @@ public class Recording {
     private FloatingActionButton fab;
     private Vibrator vibrator;
     private MediaPlayer player;
-    private List<Audio_item> List;
 
 
 
 
-    public Recording(Button playBtn, FloatingActionButton fab, final Context context, final Activity activity){
+    public Recording(final Button playBtn, final FloatingActionButton fab, final Context context, final Activity activity, final List list){
         vibrator = (Vibrator)context.getSystemService(context.VIBRATOR_SERVICE);
         player = new MediaPlayer();
         //final Activity activity = (Activity)context;
         final MediaPlayer m = new MediaPlayer();
+
+        list.add(new Audio_item());
+
         fab.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -50,15 +52,15 @@ public class Recording {
                     return true;
                 }
                 if(motionEvent.getAction()==motionEvent.ACTION_UP){
-
+                    //release button event
                     activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
                     stopRecording();
+                    list.add(new Audio_item(outputFile));
                     return true;
                 }
                 return false;
             }
         });
-
 
         playBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -99,6 +101,7 @@ public class Recording {
     }
     private void stopRecording(){
         try{
+
             vibrator.vibrate(75);
             mediaRecorder.stop();
             mediaRecorder.release();
@@ -109,6 +112,8 @@ public class Recording {
             return;
         }
     }
+
+
 
     private String generateName(){
         String name = new String();

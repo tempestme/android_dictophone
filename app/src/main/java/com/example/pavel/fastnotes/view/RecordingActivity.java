@@ -12,13 +12,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.pavel.fastnotes.R;
+import com.example.pavel.fastnotes.model.Audio_item;
 import com.example.pavel.fastnotes.model.Recording;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class RecordingActivity extends AppCompatActivity {
@@ -35,11 +38,20 @@ public class RecordingActivity extends AppCompatActivity {
         JodaTimeAndroid.init(this); //temporary
         context = getBaseContext();
         Activity activity = this;
+        ActivityInfo activityInfo = new ActivityInfo();
+
+
+        /** the list below is the our list of audio recordings.
+         *  it passed to Recording object, and then after recording is done - recording object add new object to this list.
+         */
+        List<Audio_item> audioList = new ArrayList<Audio_item>(); //this is it
+
 
         play = (Button) findViewById(R.id.btnPlay);
         recBtn = (FloatingActionButton) findViewById(R.id.btnRecord);
 
-        recording = new Recording(play, recBtn, context, activity);
+        recording = new Recording(play, recBtn, context, activity, audioList);
+        //todo:: create innerclass, and pass only object to Recording constructor, not a fucking bunch of it.
         //recording.playRecording(play);
 
 
@@ -50,6 +62,7 @@ public class RecordingActivity extends AppCompatActivity {
         addTime(fileName);
         setTime(timer);
         addDate(date);
+
 
 
     }
@@ -94,32 +107,33 @@ public class RecordingActivity extends AppCompatActivity {
 
     }
 
-    /*
-    private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
-        @Override
-        public CustomAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return null;
+    private class ActivityInfo{
+        Activity activity;
+        Context context;
+        FloatingActionButton fab;
+        Button playBtn;
+
+        public Activity getActivity() {
+            return activity;
         }
 
-        @Override
-        public void onBindViewHolder(CustomAdapter.CustomViewHolder holder, int position) {
-
+        public Context getContext() {
+            return context;
         }
 
-        @Override
-        public int getItemCount() {
-            return 0;
+        public FloatingActionButton getFab() {
+            return fab;
         }
 
-        public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            public CustomViewHolder(View itemView) {
-                super(itemView);
-            }
-
-            @Override
-            public void onClick(View view) {
-
-            }
+        public Button getPlayBtn() {
+            return playBtn;
         }
-    }*/
+
+        public ActivityInfo(){
+            activity = RecordingActivity.this;
+            context = activity.getBaseContext();
+            fab = (FloatingActionButton)findViewById(R.id.btnRecord);
+            playBtn = (Button)findViewById(R.id.btnPlay);
+        }
+    }
 }
