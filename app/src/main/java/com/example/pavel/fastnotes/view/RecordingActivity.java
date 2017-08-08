@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.pavel.fastnotes.R;
+import com.example.pavel.fastnotes.adapter.AudioAdapter;
 import com.example.pavel.fastnotes.model.Audio_item;
 import com.example.pavel.fastnotes.model.Recording;
 
@@ -20,7 +22,6 @@ import net.danlew.android.joda.JodaTimeAndroid;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -29,6 +30,10 @@ public class RecordingActivity extends AppCompatActivity {
     private FloatingActionButton recBtn;
     private Context context;
     private Button play;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private List<Audio_item> audioList;
+    private AudioAdapter audioAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +49,20 @@ public class RecordingActivity extends AppCompatActivity {
         /** the list below is the our list of audio recordings.
          *  it passed to Recording object, and then after recording is done - recording object add new object to this list.
          */
-        List<Audio_item> audioList = new ArrayList<Audio_item>(); //this is it
+        audioList = new ArrayList<Audio_item>(); //this is it
+        prepareAudioData();
+
+        /**
+         * Then initialized recyclerview will be, behold!
+         */
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        audioAdapter = new AudioAdapter(audioList);
+        recyclerView.setAdapter(audioAdapter);
+
+
+
 
 
         play = (Button) findViewById(R.id.btnPlay);
@@ -54,8 +72,14 @@ public class RecordingActivity extends AppCompatActivity {
         //todo:: create innerclass, and pass only object to Recording constructor, not a fucking bunch of it.
         //recording.playRecording(play);
 
+        //audioList.add(new Audio_item("loh"));
 
-        //todo: this is test code for debug version, it will be refacrored in release version.
+
+         //todo: this is test code for debug version, it will be refacrored in release version.
+        /**
+         * all next code is legit only in debug version and added only for tests.
+         * it will be moved to the recording class or deleted;
+         */
         TextView fileName = (TextView)findViewById(R.id.recordId); //test filename line
         TextView timer = (TextView)findViewById(R.id.timer);
         TextView date = (TextView)findViewById(R.id.date);
@@ -104,7 +128,14 @@ public class RecordingActivity extends AppCompatActivity {
         }
 
         timer.setText(normalTime);
+    }
 
+    private void prepareAudioData(){
+        audioList.add(new Audio_item("ne"));
+        audioList.add(new Audio_item("slujil"));
+        audioList.add(new Audio_item("ne"));
+        audioList.add(new Audio_item("mujik"));
+        audioList.add(new Audio_item("!!!!"));
     }
 
     private class ActivityInfo{
@@ -136,4 +167,6 @@ public class RecordingActivity extends AppCompatActivity {
             playBtn = (Button)findViewById(R.id.btnPlay);
         }
     }
+
+
 }

@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.joda.time.DateTime;
 
@@ -121,6 +122,47 @@ public class Recording {
         name = Environment.getExternalStorageDirectory().getAbsolutePath() +
                 "/" + Integer.toString(dateTime.getDayOfYear())+Integer.toString(dateTime.getSecondOfDay())+"3gp";
         return name;
+    }
+
+
+    public void addDate(TextView date){
+        DateTime dateTime = new DateTime();
+        date.setText(
+                Integer.toString(dateTime.getDayOfMonth())+"."+
+                        Integer.toString(dateTime.getMonthOfYear())+"."+
+                        Integer.toString(dateTime.getYear())
+        );
+    }
+
+    public void addTime(TextView fn){
+        DateTime dateTime = new DateTime();
+        fn.setText(fn.getText() + Integer.toString(dateTime.getDayOfYear()));
+    }
+
+    private void setTime(TextView timer){
+        String normalTime = new String();
+        String Hour = new String();
+        String Minute = new String();
+        DateTime dateTime = new DateTime();
+        Hour = Integer.toString(dateTime.getHourOfDay());
+        Minute = Integer.toString(dateTime.getMinuteOfHour());
+
+        if (Hour.length()==1){
+            normalTime =  normalTime + "0" + Hour;
+        }
+        else{
+            normalTime+=Hour;
+        }
+        normalTime+=":";
+        if (Minute.length()==1){
+            normalTime = normalTime + "0" + Minute;
+        }
+        else{
+            normalTime+=Minute;
+        }
+
+        timer.setText(normalTime);
+
     }
 
     /*

@@ -45,6 +45,8 @@ public class Audio_item {
         this.length = length;
     }
 
+    public String getTitle(){return outPutFile;}
+
     private void GenerateTitle(){
         dateTime = new DateTime();
         //return title;
