@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.pavel.fastnotes.view.RecordingActivity;
+
 import org.joda.time.DateTime;
 
 import java.io.IOException;
@@ -26,20 +28,23 @@ import java.util.List;
 public class Recording {
     private MediaRecorder mediaRecorder;
     private String outputFile = null;
-    private FloatingActionButton fab;
     private Vibrator vibrator;
     private MediaPlayer player;
 
 
 
 
-    public Recording(final Button playBtn, final FloatingActionButton fab, final Context context, final Activity activity, final List list){
+    public Recording(final Button playBtn,
+                     final FloatingActionButton fab,
+                     final Context context,
+                     final Activity activity,
+                     final List list){
+
         vibrator = (Vibrator)context.getSystemService(context.VIBRATOR_SERVICE);
         player = new MediaPlayer();
-        //final Activity activity = (Activity)context;
+
         final MediaPlayer m = new MediaPlayer();
 
-        list.add(new Audio_item());
 
         fab.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -62,6 +67,7 @@ public class Recording {
                 return false;
             }
         });
+
 
         playBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -124,7 +130,6 @@ public class Recording {
         return name;
     }
 
-
     public void addDate(TextView date){
         DateTime dateTime = new DateTime();
         date.setText(
@@ -132,11 +137,6 @@ public class Recording {
                         Integer.toString(dateTime.getMonthOfYear())+"."+
                         Integer.toString(dateTime.getYear())
         );
-    }
-
-    public void addTime(TextView fn){
-        DateTime dateTime = new DateTime();
-        fn.setText(fn.getText() + Integer.toString(dateTime.getDayOfYear()));
     }
 
     private void setTime(TextView timer){
@@ -162,8 +162,10 @@ public class Recording {
         }
 
         timer.setText(normalTime);
-
     }
+
+
+
 
     /*
     private void playRecording(){

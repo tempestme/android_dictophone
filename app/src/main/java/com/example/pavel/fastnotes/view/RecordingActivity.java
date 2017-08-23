@@ -34,6 +34,7 @@ public class RecordingActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private List<Audio_item> audioList;
     private AudioAdapter audioAdapter;
+    private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,7 @@ public class RecordingActivity extends AppCompatActivity {
         //joda time library initialization
         JodaTimeAndroid.init(this); //temporary
         context = getBaseContext();
-        Activity activity = this;
-        ActivityInfo activityInfo = new ActivityInfo();
+        activity = this;
 
 
         /** the list below is the our list of audio recordings.
@@ -69,6 +69,7 @@ public class RecordingActivity extends AppCompatActivity {
         recBtn = (FloatingActionButton) findViewById(R.id.btnRecord);
 
         recording = new Recording(play, recBtn, context, activity, audioList);
+
         //todo:: create innerclass, and pass only object to Recording constructor, not a fucking bunch of it.
         //recording.playRecording(play);
 
@@ -80,12 +81,12 @@ public class RecordingActivity extends AppCompatActivity {
          * all next code is legit only in debug version and added only for tests.
          * it will be moved to the recording class or deleted;
          */
-        TextView fileName = (TextView)findViewById(R.id.recordId); //test filename line
-        TextView timer = (TextView)findViewById(R.id.timer);
-        TextView date = (TextView)findViewById(R.id.date);
-        addTime(fileName);
-        setTime(timer);
-        addDate(date);
+        //TextView fileName = (TextView)findViewById(R.id.recordId); //test filename line
+        //TextView timer = (TextView)findViewById(R.id.timer);
+        //TextView date = (TextView)findViewById(R.id.date);
+        //addTime(fileName);
+        //setTime(timer);
+        //addDate(date);
 
 
 
@@ -136,37 +137,12 @@ public class RecordingActivity extends AppCompatActivity {
         audioList.add(new Audio_item("ne"));
         audioList.add(new Audio_item("mujik"));
         audioList.add(new Audio_item("!!!!"));
+        audioList.add(new Audio_item("по жизни"));
+        audioList.add(new Audio_item("ты"));
+        audioList.add(new Audio_item("лох"));
     }
 
-    private class ActivityInfo{
-        Activity activity;
-        Context context;
-        FloatingActionButton fab;
-        Button playBtn;
 
-        public Activity getActivity() {
-            return activity;
-        }
-
-        public Context getContext() {
-            return context;
-        }
-
-        public FloatingActionButton getFab() {
-            return fab;
-        }
-
-        public Button getPlayBtn() {
-            return playBtn;
-        }
-
-        public ActivityInfo(){
-            activity = RecordingActivity.this;
-            context = activity.getBaseContext();
-            fab = (FloatingActionButton)findViewById(R.id.btnRecord);
-            playBtn = (Button)findViewById(R.id.btnPlay);
-        }
-    }
 
 
 }

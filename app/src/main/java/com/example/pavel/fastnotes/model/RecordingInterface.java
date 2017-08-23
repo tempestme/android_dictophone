@@ -7,5 +7,9 @@ import java.util.List;
  */
 
 public interface RecordingInterface {
+    public void startRecord();
+
+    public void stopRecord();
+
 
 }

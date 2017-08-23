@@ -35,8 +35,9 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Audio_item audio_item = AudioList.get(position);
-        holder.time.setText(audio_item.getDate());
+        holder.date.setText(audio_item.getDate());
         holder.outputFile.setText(audio_item.getTitle());
+        holder.duration.setText("01:30"); //todo:THIS IS TEST LINE, need to implement real Getduration() method in audio_item class
     }
 
     @Override
@@ -45,13 +46,19 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.MyViewHolder
     }
 
 
+
+
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView outputFile, time, date, filename;
+        TextView outputFile, date, duration;
+
 
         public MyViewHolder(View view){
             super(view);
-            outputFile = (TextView)view.findViewById(R.id.dateTv);
-            time = (TextView)view.findViewById(R.id.timeTv);
+            outputFile = (TextView)view.findViewById(R.id.filenameTv);
+            date = (TextView)view.findViewById(R.id.dateTv);
+            duration = (TextView)view.findViewById(R.id.timeTv);
+
 
         }
     }
