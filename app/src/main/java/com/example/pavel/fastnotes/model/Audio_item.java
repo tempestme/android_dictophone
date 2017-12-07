@@ -3,6 +3,8 @@ package com.example.pavel.fastnotes.model;
 
 import android.media.MediaPlayer;
 
+import com.example.pavel.fastnotes.adapter.AudioAdapter;
+
 import org.joda.time.DateTime;
 
 /**
@@ -10,7 +12,7 @@ import org.joda.time.DateTime;
  * object contain date of recording, output file name, duration of recording.
  */
 
-public class Audio_item {
+public class Audio_item{
     //String title;
     private String outPutFile;
     private String date;

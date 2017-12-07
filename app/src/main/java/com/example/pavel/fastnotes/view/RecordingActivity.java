@@ -1,12 +1,22 @@
 package com.example.pavel.fastnotes.view;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -36,6 +46,12 @@ public class RecordingActivity extends AppCompatActivity {
     private AudioAdapter audioAdapter;
     private Activity activity;
 
+    private final int WRITE_EXTERNAL_STORAGE = 201;
+    private final int RECORD_AUDIO = 202;
+    private final int VIBRATE = 203;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,17 +66,37 @@ public class RecordingActivity extends AppCompatActivity {
          *  it passed to Recording object, and then after recording is done - recording object add new object to this list.
          */
         audioList = new ArrayList<Audio_item>(); //this is it
-        prepareAudioData();
+        //prepareAudioData();
 
         /**
-         * Then initialized recyclerview will be, behold!
+         * Then initialized recyclerview will be.
          */
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        audioAdapter = new AudioAdapter(audioList);
+        audioAdapter = new AudioAdapter(audioList, recording);
         recyclerView.setAdapter(audioAdapter);
 
+
+        /**
+         * initialize click listners
+         */
+        recBtn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction()==motionEvent.ACTION_DOWN){
+                    //press button event
+                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+
+                    return true;
+                }
+                if(motionEvent.getAction()==motionEvent.ACTION_UP){
+                    //release button event
+                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+                    return true;
+                }
+                return false;            }
+        });
 
 
 
@@ -68,7 +104,7 @@ public class RecordingActivity extends AppCompatActivity {
         play = (Button) findViewById(R.id.btnPlay);
         recBtn = (FloatingActionButton) findViewById(R.id.btnRecord);
 
-        recording = new Recording(play, recBtn, context, activity, audioList);
+        recording = new Recording(play, recBtn, context, activity, audioList, audioAdapter);
 
         //todo:: create innerclass, and pass only object to Recording constructor, not a fucking bunch of it.
         //recording.playRecording(play);
@@ -88,18 +124,9 @@ public class RecordingActivity extends AppCompatActivity {
         //setTime(timer);
         //addDate(date);
 
-
-
     }
 
-    public void addDate(TextView date){
-        DateTime dateTime = new DateTime();
-        date.setText(
-                        Integer.toString(dateTime.getDayOfMonth())+"."+
-                        Integer.toString(dateTime.getMonthOfYear())+"."+
-                        Integer.toString(dateTime.getYear())
-        );
-    }
+
 
     public void addTime(TextView fn){
         DateTime dateTime = new DateTime();
@@ -131,18 +158,54 @@ public class RecordingActivity extends AppCompatActivity {
         timer.setText(normalTime);
     }
 
-    private void prepareAudioData(){
-        audioList.add(new Audio_item("ne"));
-        audioList.add(new Audio_item("slujil"));
-        audioList.add(new Audio_item("ne"));
-        audioList.add(new Audio_item("mujik"));
-        audioList.add(new Audio_item("!!!!"));
-        audioList.add(new Audio_item("по жизни"));
-        audioList.add(new Audio_item("ты"));
-        audioList.add(new Audio_item("лох"));
+
+    /**
+     *  This is permission handler section
+     *  in this project will be requested 3 permissions
+     *  WRITE_EXTERNAL_STORAGE
+     *  RECORD_AUDIO
+     *  VIBRATE
+     *
+     *
+     *              if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+     * ***** this code used for compatibility with android 5 and older versions
+     */
+
+
+    private void askPermissions(String permission, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
+            }
+            else {
+                Log.e("permission", "already have permission " + Integer.toString(requestCode));
+            }
+        }
     }
 
 
-
-
+    /**
+     *  Overriding request permission callback.
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch(requestCode){
+            case WRITE_EXTERNAL_STORAGE:
+                if (grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    Log.e("permission", "Permission WRITE_EXTERNAL_STORAGE granted" );
+                }
+            case RECORD_AUDIO:
+                if (grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    Log.e("permission", "Permission RECORD_AUDIO granted" );
+                }
+            case VIBRATE:
+                if (grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    Log.e("permission", "Permission VIBRATE granted" );
+                }
+        }
+    }
 }

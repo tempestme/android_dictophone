@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.pavel.fastnotes.adapter.AudioAdapter;
 import com.example.pavel.fastnotes.view.RecordingActivity;
 
 import org.joda.time.DateTime;
@@ -30,23 +31,32 @@ public class Recording {
     private String outputFile = null;
     private Vibrator vibrator;
     private MediaPlayer player;
+    private Context context;
+    private List list;
+    private MediaPlayer m;
+    private AudioAdapter audioAdapter;
 
 
 
 
-    public Recording(final Button playBtn,
+    public Recording(Button playBtn,
                      final FloatingActionButton fab,
                      final Context context,
                      final Activity activity,
-                     final List list){
+                     final List list,
+                     final AudioAdapter audioAdapter){
+        this.context = context;
+        this.list = list;
+        //this.audioAdapter = audioAdapter;
 
         vibrator = (Vibrator)context.getSystemService(context.VIBRATOR_SERVICE);
         player = new MediaPlayer();
 
-        final MediaPlayer m = new MediaPlayer();
+        m = new MediaPlayer();
 
 
-        fab.setOnTouchListener(new View.OnTouchListener() {
+
+        fab.setOnTouchListener(  new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
@@ -62,11 +72,14 @@ public class Recording {
                     activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
                     stopRecording();
                     list.add(new Audio_item(outputFile));
+                    //audioAdapter.notifyDataSetChanged();
                     return true;
                 }
                 return false;
             }
         });
+
+
 
 
         playBtn.setOnTouchListener(new View.OnTouchListener() {
@@ -86,8 +99,29 @@ public class Recording {
             }
         });
 
+
+
     }
-    private void startRecording(){
+
+    public void SetPlayButton(FloatingActionButton button, final String outputFile){
+        button.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                try {
+                    m.setDataSource(outputFile);
+                    m.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                }
+                m.start();
+                return true;
+            }
+        });
+    }
+
+
+    public void startRecording(){
         try {
             //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/newrecording.3gp";
             outputFile = generateName();
@@ -106,7 +140,9 @@ public class Recording {
         }
 
     }
-    private void stopRecording(){
+
+
+    public void stopRecording(){
         try{
 
             vibrator.vibrate(75);
@@ -119,6 +155,8 @@ public class Recording {
             return;
         }
     }
+
+
 
 
 
