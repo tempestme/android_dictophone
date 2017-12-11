@@ -46,11 +46,10 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Audio_item audio_item = AudioList[position];
-        holder.date.setText(audio_item.getDate());
-        holder.outputFile.setText(audio_item.getTitle());
+        holder.date.setText("10.10.10");
         holder.duration.setText("01:30"); //todo:THIS IS TEST LINE, need to implement real Getduration() method in audio_item
 
+        //todo::click listner here
 
 
         //recording.SetPlayButton(holder.playFab, AudioList.get(position).getTitle());
@@ -71,13 +70,12 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.MyViewHolder
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView outputFile, date, duration;
+        TextView date, duration;
         FloatingActionButton playFab;
 
 
         public MyViewHolder(View view){
             super(view);
-            outputFile = (TextView)view.findViewById(R.id.filenameTv);
             date = (TextView)view.findViewById(R.id.dateTv);
             duration = (TextView)view.findViewById(R.id.timeTv);
             playFab = (FloatingActionButton)view.findViewById(R.id.playFab);

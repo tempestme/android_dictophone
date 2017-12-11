@@ -57,16 +57,23 @@ public class RecordingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recording);
         //joda time library initialization
-        JodaTimeAndroid.init(this); //temporary
+        askPermissions(Manifest.permission.RECORD_AUDIO,RECORD_AUDIO);
+        askPermissions(Manifest.permission.VIBRATE,VIBRATE);
+        askPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE);
+
         context = getBaseContext();
         activity = this;
 
+        play = (Button) findViewById(R.id.btnPlay);
+        recBtn = (FloatingActionButton) findViewById(R.id.btnRecord);
+
+        recording = new Recording(context);
 
         /** the list below is the our list of audio recordings.
          *
          */
 
-        //audioList = new ArrayList<Audio_item>(); //this is it
+        audioList = new Audio_item[]{};
         //prepareAudioData();
 
         /**
@@ -85,6 +92,8 @@ public class RecordingActivity extends AppCompatActivity {
         recBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                askPermissions(Manifest.permission.RECORD_AUDIO,RECORD_AUDIO);
+                askPermissions(Manifest.permission.VIBRATE,VIBRATE);
                 if(motionEvent.getAction()==motionEvent.ACTION_DOWN){
                     //press button event
                     activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
@@ -95,19 +104,23 @@ public class RecordingActivity extends AppCompatActivity {
                     //release button event
                     activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
                     recording.stopRecording();
-                    audioAdapter.notifyDataSetChanged();
+                    //audioAdapter.notifyDataSetChanged();
                     return true;
                 }
                 return false;            }
         });
 
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recording.playRecording(audioList);
+            }
+        });
 
 
 
-        play = (Button) findViewById(R.id.btnPlay);
-        recBtn = (FloatingActionButton) findViewById(R.id.btnRecord);
 
-        recording = new Recording(context);
+
 
         //recording.playRecording(play);
         //audioList.add(new Audio_item("loh"));

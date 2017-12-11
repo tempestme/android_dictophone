@@ -129,7 +129,7 @@ public class Recording {
             vibrator.vibrate(75);
             mediaRecorder.prepare();
             mediaRecorder.start();
-            audio_item[audio_item.length] = new Audio_item(outputFile);
+           // audio_item[audio_item.length] = new Audio_item(outputFile);
             return;
         } catch (IOException e) {
             e.printStackTrace();
@@ -141,7 +141,6 @@ public class Recording {
 
     public void stopRecording(){
         try{
-
             vibrator.vibrate(75);
             mediaRecorder.stop();
             mediaRecorder.release();
@@ -203,9 +202,10 @@ public class Recording {
 
 
 
-    public void playRecording(){
+    public void playRecording(Audio_item[] audio_item){
         final MediaPlayer m = new MediaPlayer();
         try{
+            //outputFile = audio_item[audio_item.length-1].getOutPutFile();
             m.setDataSource(outputFile);
             m.prepare();
         }
@@ -216,6 +216,6 @@ public class Recording {
         vibrator.vibrate(50);
     }
 
-    
+
 
 }
