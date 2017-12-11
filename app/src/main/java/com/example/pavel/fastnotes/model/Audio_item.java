@@ -2,6 +2,7 @@ package com.example.pavel.fastnotes.model;
 
 
 import android.media.MediaPlayer;
+import android.support.design.widget.FloatingActionButton;
 
 import com.example.pavel.fastnotes.adapter.AudioAdapter;
 
@@ -18,6 +19,7 @@ public class Audio_item{
     private String date;
     private int length;
     private DateTime dateTime;
+    private FloatingActionButton playBtn;
 
     public Audio_item(String outPutFile) {
         this.outPutFile = outPutFile;
@@ -32,7 +34,7 @@ public class Audio_item{
     }
 
     public String getDate() {
-        return date ;
+        return date;
     }
 
     public void setDate(String date) {

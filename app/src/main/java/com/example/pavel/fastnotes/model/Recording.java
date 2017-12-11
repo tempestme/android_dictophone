@@ -39,12 +39,8 @@ public class Recording {
 
 
 
-    public Recording(Button playBtn,
-                     final FloatingActionButton fab,
-                     final Context context,
-                     final Activity activity,
-                     final List list,
-                     final AudioAdapter audioAdapter){
+    public Recording(
+                     final Context context){
         this.context = context;
         this.list = list;
         //this.audioAdapter = audioAdapter;
@@ -56,72 +52,72 @@ public class Recording {
 
 
 
-        fab.setOnTouchListener(  new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+//        fab.setOnTouchListener(  new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//
+//
+//                if(motionEvent.getAction()==motionEvent.ACTION_DOWN){
+//                    //press button event
+//                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+//                    startRecording();
+//                    return true;
+//                }
+//                if(motionEvent.getAction()==motionEvent.ACTION_UP){
+//                    //release button event
+//                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+//                    stopRecording();
+//                    list.add(new Audio_item(outputFile));
+//                    //audioAdapter.notifyDataSetChanged();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
 
-                if(motionEvent.getAction()==motionEvent.ACTION_DOWN){
-                    //press button event
-                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
-                    startRecording();
-                    return true;
-                }
-                if(motionEvent.getAction()==motionEvent.ACTION_UP){
-                    //release button event
-                    activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-                    stopRecording();
-                    list.add(new Audio_item(outputFile));
-                    //audioAdapter.notifyDataSetChanged();
-                    return true;
-                }
-                return false;
-            }
-        });
 
 
-
-
-        playBtn.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                try{
-                    m.setDataSource(outputFile);
-                    m.prepare();
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
-                m.start();
-                m.getDuration();
-                vibrator.vibrate(50);
-                return true;
-            }
-        });
+//        playBtn.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                try{
+//                    m.setDataSource(outputFile);
+//                    m.prepare();
+//                }
+//                catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//                m.start();
+//                m.getDuration();
+//                vibrator.vibrate(50);
+//                return true;
+//            }
+//        });
 
 
 
     }
 
-    public void SetPlayButton(FloatingActionButton button, final String outputFile){
-        button.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                try {
-                    m.setDataSource(outputFile);
-                    m.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
+//    public void SetPlayButton(FloatingActionButton button, final String outputFile){
+//        button.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                try {
+//                    m.setDataSource(outputFile);
+//                    m.prepare();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//
+//                }
+//                m.start();
+//                return true;
+//            }
+//        });
+//    }
 
-                }
-                m.start();
-                return true;
-            }
-        });
-    }
 
-
-    public void startRecording(){
+    public void startRecording(Audio_item[] audio_item){
         try {
             //outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/newrecording.3gp";
             outputFile = generateName();
@@ -133,6 +129,7 @@ public class Recording {
             vibrator.vibrate(75);
             mediaRecorder.prepare();
             mediaRecorder.start();
+            audio_item[audio_item.length] = new Audio_item(outputFile);
             return;
         } catch (IOException e) {
             e.printStackTrace();
@@ -168,7 +165,7 @@ public class Recording {
         return name;
     }
 
-    public void addDate(TextView date){
+    private void addDate(TextView date){
         DateTime dateTime = new DateTime();
         date.setText(
                 Integer.toString(dateTime.getDayOfMonth())+"."+
@@ -205,25 +202,20 @@ public class Recording {
 
 
 
-    /*
-    private void playRecording(){
-        final MediaPlayer m = new MediaPlayer();
-        playBtn.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                try{
-                    m.setDataSource(outputFile);
-                    m.prepare();
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
-                m.start();
-                vibrator.vibrate(50);
-                return true;
-            }
-        });
 
-    }*/
+    public void playRecording(){
+        final MediaPlayer m = new MediaPlayer();
+        try{
+            m.setDataSource(outputFile);
+            m.prepare();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        m.start();
+        vibrator.vibrate(50);
+    }
+
+    
 
 }

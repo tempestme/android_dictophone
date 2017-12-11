@@ -42,7 +42,7 @@ public class RecordingActivity extends AppCompatActivity {
     private Button play;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private List<Audio_item> audioList;
+    private Audio_item[] audioList;
     private AudioAdapter audioAdapter;
     private Activity activity;
 
@@ -63,13 +63,14 @@ public class RecordingActivity extends AppCompatActivity {
 
 
         /** the list below is the our list of audio recordings.
-         *  it passed to Recording object, and then after recording is done - recording object add new object to this list.
+         *
          */
-        audioList = new ArrayList<Audio_item>(); //this is it
+
+        //audioList = new ArrayList<Audio_item>(); //this is it
         //prepareAudioData();
 
         /**
-         * Then initialized recyclerview will be.
+         * recyclerview
          */
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         layoutManager = new LinearLayoutManager(this);
@@ -79,7 +80,7 @@ public class RecordingActivity extends AppCompatActivity {
 
 
         /**
-         * initialize click listners
+         * listners
          */
         recBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -87,12 +88,14 @@ public class RecordingActivity extends AppCompatActivity {
                 if(motionEvent.getAction()==motionEvent.ACTION_DOWN){
                     //press button event
                     activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
-
+                    recording.startRecording(audioList);
                     return true;
                 }
                 if(motionEvent.getAction()==motionEvent.ACTION_UP){
                     //release button event
                     activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+                    recording.stopRecording();
+                    audioAdapter.notifyDataSetChanged();
                     return true;
                 }
                 return false;            }
@@ -104,11 +107,9 @@ public class RecordingActivity extends AppCompatActivity {
         play = (Button) findViewById(R.id.btnPlay);
         recBtn = (FloatingActionButton) findViewById(R.id.btnRecord);
 
-        recording = new Recording(play, recBtn, context, activity, audioList, audioAdapter);
+        recording = new Recording(context);
 
-        //todo:: create innerclass, and pass only object to Recording constructor, not a fucking bunch of it.
         //recording.playRecording(play);
-
         //audioList.add(new Audio_item("loh"));
 
 

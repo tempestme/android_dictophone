@@ -22,13 +22,14 @@ import static android.R.id.list;
 
 public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.MyViewHolder>{
 
-    private List<Audio_item> AudioList;
+    private Audio_item AudioList[];
     private Recording recording;
 
 
-    public AudioAdapter(List<Audio_item> audioList, Recording recording){
+    public AudioAdapter(Audio_item[] audioList, Recording recording){
         this.recording = recording;
         this.AudioList = audioList;
+
 
     }
 
@@ -45,12 +46,14 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Audio_item audio_item = AudioList.get(position);
+        Audio_item audio_item = AudioList[position];
         holder.date.setText(audio_item.getDate());
         holder.outputFile.setText(audio_item.getTitle());
-        holder.duration.setText("01:30"); //todo:THIS IS TEST LINE, need to implement real Getduration() method in audio_item class
+        holder.duration.setText("01:30"); //todo:THIS IS TEST LINE, need to implement real Getduration() method in audio_item
 
-        recording.SetPlayButton(holder.playFab, AudioList.get(position).getTitle());
+
+
+        //recording.SetPlayButton(holder.playFab, AudioList.get(position).getTitle());
 
     }
 
@@ -58,10 +61,8 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.MyViewHolder
 
     @Override
     public int getItemCount() {
-        return AudioList.size();
+        return AudioList.length;
     }
-
-
 
 
 
